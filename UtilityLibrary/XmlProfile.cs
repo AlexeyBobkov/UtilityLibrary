@@ -1,8 +1,11 @@
 ﻿//
-// The following code is based on the AMS.Profile Class Library project by Alvaro Mendez;
-// however, the interface and classes were significantly redesigned,
-// XML and String serialization added, etc.
-// Nevertheless, I keep the original copyright below.
+// The following code is based on the AMS.Profile Class Library project by Alvaro Mendez.
+// The source code of the original project can be found here:
+// https://www.codeproject.com/articles/5304/read-write-xml-files-config-files-ini-files-or-the
+//
+// However, the interface and classes were significantly redesigned,
+// I added XML and String serialization/deserialization, etc.
+// Nevertheless, I keep the author's copyright below.
 // (Alexey Bobkov, 2018)
 //
 
@@ -463,21 +466,21 @@ namespace AAB.UtilityLibrary
         protected string TypeName(object value, AddType addType)
         {
             Type t = value.GetType();
-            string assemblyName = t.AssemblyQualifiedName;
+            string fullName = t.AssemblyQualifiedName;
             switch (addType)
             {
                 case AddType.Short:
-                    return assemblyName.Substring(0, assemblyName.IndexOf(',')) + ", " + t.Assembly.GetName().Name;
+                    return fullName.Substring(0, fullName.IndexOf(',')) + ", " + t.Assembly.GetName().Name;
 
                 case AddType.ShortForCurrentAssembly:
                     return (!t.Assembly.Equals(Assembly.GetExecutingAssembly())) ?
-                            assemblyName :
-                            assemblyName.Substring(0, assemblyName.IndexOf(',')) + ", " + t.Assembly.GetName().Name;
+                            fullName :
+                            fullName.Substring(0, fullName.IndexOf(',')) + ", " + t.Assembly.GetName().Name;
 
                 default:
                 case AddType.Default:
                 case AddType.Full:
-                    return assemblyName;
+                    return fullName;
             }
         }
     }
